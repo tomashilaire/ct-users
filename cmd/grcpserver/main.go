@@ -22,7 +22,7 @@ var (
 )
 
 func init() {
-	flag.IntVar(&port, "port", 9092, "test service port")
+	flag.IntVar(&port, "port", 9092, "gRCP service port")
 	flag.BoolVar(&local, "local", true, "run service local")
 	flag.Parse()
 }

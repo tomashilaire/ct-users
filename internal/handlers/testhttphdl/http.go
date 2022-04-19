@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"test/internal/core/ports"
+
+	"github.com/gorilla/mux"
 )
 
 type HTTPHandler struct {
@@ -17,7 +19,8 @@ func NewHTTPHandler(ts ports.TestService) *HTTPHandler {
 }
 
 func (h *HTTPHandler) GetTest(w http.ResponseWriter, r *http.Request) {
-	result, err := h.ts.ShowById("???")
+	id := mux.Vars(r)["id"]
+	result, err := h.ts.ShowById(id)
 	if err != nil {
 		WriteAsJson(w, http.StatusUnprocessableEntity, err)
 		return
