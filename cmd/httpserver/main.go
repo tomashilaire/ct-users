@@ -14,19 +14,19 @@ import (
 )
 
 var (
-	testport int
-	testAddr string
+	grcpPort int
+	grcpAddr string
 )
 
 func init() {
-	flag.IntVar(&testport, "port", 9090, "HTTP service port")
-	flag.StringVar(&testAddr, "test_addr", "localhost:9092", "test service address")
+	flag.IntVar(&grcpPort, "port", 9090, "HTTP service port")
+	flag.StringVar(&grcpAddr, "test_addr", "localhost:9092", "test service address")
 	flag.Parse()
 }
 
 func main() {
 
-	conn, err := grpc.Dial(testAddr, grpc.WithInsecure())
+	conn, err := grpc.Dial(grcpAddr, grpc.WithInsecure())
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -40,7 +40,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	routes.Install(router, tr)
 
-	log.Printf("API service running on [::]:%d\n", testport)
+	log.Printf("API service running on [::]:%d\n", grcpPort)
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", testport), routes.WithCORS(router)))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", grcpPort), routes.WithCORS(router)))
 }
