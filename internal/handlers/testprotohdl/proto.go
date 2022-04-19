@@ -2,7 +2,8 @@ package testprotohdl
 
 import (
 	"context"
-	"log"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"test/internal/core/ports"
 	"test/pb"
 )
@@ -16,18 +17,21 @@ func NewProtoHandler(ts ports.TestService) *protoHandler {
 }
 
 // GetTest implements pb.TestServer
-func (ph *protoHandler) GetTest(context.Context, *pb.GetTestRequest) (*pb.GetTestResponse, error) {
-	panic("unimplemented")
+func (ph *protoHandler) GetTest(ctx context.Context, req *pb.GetTestRequest) (*pb.GetTestResponse, error) {
+	test, err := ph.ts.ShowById(req.Id)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	return &pb.GetTestResponse{Id: test.Id, Name: test.Name}, nil
 }
 
 // GetAllTests implements pb.Test.Server
 func (ph *protoHandler) GetAllTests(req *pb.GetAllTestsRequest, stream pb.Test_GetAllTestsServer) error {
 	tests, err := ph.ts.ShowAll()
 	if err != nil {
-		log.Fatal("Unable to retrieve data", err)
-		return err
+		return status.Errorf(codes.Internal, err.Error())
 	}
-	log.Println(tests)
 
 	for _, test := range tests {
 		err := stream.Send(&pb.GetTestResponse{
@@ -35,8 +39,7 @@ func (ph *protoHandler) GetAllTests(req *pb.GetAllTestsRequest, stream pb.Test_G
 			Name: test.Name,
 		})
 		if err != nil {
-			log.Fatal("Unable to sent to protobuffer", err)
-			return err
+			return status.Errorf(codes.Internal, err.Error())
 		}
 	}
 	return nil

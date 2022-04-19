@@ -5,6 +5,6 @@ type Test struct {
 	Name string `bson:"name"`
 }
 
-func NewTest(Id string, Name string) Test {
-	return Test{Id: Id, Name: Name}
+func NewTest(id string, name string) *Test {
+	return &Test{Id: id, Name: name}
 }
