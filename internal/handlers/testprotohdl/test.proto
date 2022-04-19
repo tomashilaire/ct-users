@@ -1,0 +1,36 @@
+syntax="proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service Test {
+    rpc GetAllTests(GetAllTestsRequest) returns (stream GetTestResponse);
+    rpc GetTest(GetTestRequest) returns (GetTestResponse);
+    rpc PutTest(PutTestRequest) returns (PutTestResponse);
+    rpc PostTest(PostTestRequest) returns (PostTestResponse);
+    rpc DeleteTest(DeleteTestRequest) returns (DeleteTestResponse);
+}
+
+message GetAllTestsRequest{}
+
+message GetTestRequest{
+    string id = 1;
+}
+message GetTestResponse{
+    string id = 1;
+    string name = 2;
+}
+
+message PutTestRequest{
+    string id = 1;
+}
+message PutTestResponse{}
+
+message PostTestRequest{}
+message PostTestResponse{}
+
+message DeleteTestRequest{
+    string id = 1;
+}
+message DeleteTestResponse{}
