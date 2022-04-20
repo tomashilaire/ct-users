@@ -5,9 +5,9 @@ import (
 )
 
 type TestService interface {
-	ShowById(Id string) (domain.Test, error)
+	ShowById(id string) (*domain.Test, error)
 	ShowAll() ([]*domain.Test, error)
-	Update(*domain.Test) (domain.Test, error)
-	Create(*domain.Test) (domain.Test, error)
-	Delete(Id string) error
+	Update(id string, name string) (*domain.Test, error)
+	Create(name string) (*domain.Test, error)
+	Delete(id string) error
 }

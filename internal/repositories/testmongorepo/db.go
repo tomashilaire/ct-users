@@ -21,7 +21,7 @@ type conn struct {
 	db     *mongo.Database
 }
 
-func NewConnection(cfg Config) (Connection, error) {
+func NewConnection(cfg Config) (*conn, error) {
 	fmt.Printf("Database url: %s\n", cfg.Dsn())
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
