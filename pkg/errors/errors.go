@@ -47,7 +47,7 @@ func WrapWithData(e error, message string, data interface{}) error {
 	return wrap(e, message, data)
 }
 
-// Is verify if a given error has the same time of the given target error.
+// Is verify if a given error has the same type of the given target error.
 // The target parameter should be an error previously defined with the Define function.
 func Is(e error, target error) bool {
 	if err, ok := e.(Error); ok {
