@@ -59,8 +59,8 @@ func (s *service) Update(id string, name string) (*domain.Test, error) {
 
 }
 
-func (s *service) Create(name string) (*domain.Test, error) {
-	test := domain.NewTest(s.uidGen.New(), name)
+func (s *service) Create(name string, action string) (*domain.Test, error) {
+	test := domain.NewTest(s.uidGen.New(), name, action)
 
 	if err := s.tr.Create(test); err != nil {
 		return &domain.Test{}, errors.New(apperrors.Internal, err, "Create entity into repository failed", "")

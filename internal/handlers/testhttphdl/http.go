@@ -13,9 +13,7 @@ type HTTPHandler struct {
 }
 
 func NewHTTPHandler(ts ports.TestService) *HTTPHandler {
-	return &HTTPHandler{
-		ts: ts,
-	}
+	return &HTTPHandler{ts: ts}
 }
 
 func (h *HTTPHandler) GetTest(w http.ResponseWriter, r *http.Request) {

@@ -1,46 +1,88 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
-	"test/cmd/httpserver/routes"
+	"os"
+	"os/signal"
+	"test/internal/core/services/testsrv"
 	"test/internal/handlers/testhttphdl"
-	"test/pb"
+	"test/internal/repositories/testmongorepo"
+	"test/pkg/uidgen"
+	"time"
 
 	"github.com/gorilla/mux"
-	"google.golang.org/grpc"
+	"github.com/joho/godotenv"
 )
 
 var (
-	grcpPort int
-	grcpAddr string
+	local bool
 )
 
 func init() {
-	flag.IntVar(&grcpPort, "port", 9090, "HTTP service port")
-	flag.StringVar(&grcpAddr, "test_addr", "localhost:9092", "test service address")
+	flag.BoolVar(&local, "local", true, "run service local")
 	flag.Parse()
 }
 
 func main() {
-
-	conn, err := grpc.Dial(grcpAddr, grpc.WithInsecure())
-	if err != nil {
-		log.Panicln(err)
+	if local {
+		err := godotenv.Load()
+		if err != nil {
+			log.Println("Unable to retrieve env variables", err)
+		}
 	}
-	defer conn.Close()
 
-	// to check
-	tc := pb.NewTestClient(conn)
-	th := testhttphdl.NewHTTPHandler(tc)
-	tr := routes.NewTestRoutes(th)
+	// db config and conn
+	cfg := testmongorepo.NewConfig()
+	db, err := testmongorepo.NewConnection(cfg)
+	if err != nil {
+		log.Println("Unable to connect", err)
+	}
+	defer db.Disconnect()
 
-	router := mux.NewRouter().StrictSlash(true)
-	routes.Install(router, tr)
+	tr := testmongorepo.NewTestRepository(db)
+	ts := testsrv.NewService(tr, uidgen.New())
+	th := testhttphdl.NewHTTPHandler(ts)
 
-	log.Printf("API service running on [::]:%d\n", grcpPort)
+	r := mux.NewRouter()
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", grcpPort), routes.WithCORS(router)))
+	getRouter := r.Methods("GET").Subrouter()
+	getRouter.HandleFunc("/tests", th.GetAllTests)
+	getRouter.HandleFunc("/tests/{id:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}}", th.GetTest)
+
+	postRouter := r.Methods("POST").Subrouter()
+	postRouter.HandleFunc("/tests", th.PostTest)
+
+	putRouter := r.Methods("PUT").Subrouter()
+	putRouter.HandleFunc("/tests/{id:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}}", th.PutTest)
+
+	deleteRouter := r.Methods("DELET").Subrouter()
+	deleteRouter.HandleFunc("/tests/{id:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}}", th.DeleteTest)
+
+	srv := &http.Server{
+		Handler:      r,
+		Addr:         ":9090",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	go func() {
+		log.Println("http service running on [::]", srv.Addr)
+		err := srv.ListenAndServe()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+	}()
+	sigChan := make(chan os.Signal)
+	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, os.Kill)
+
+	sig := <-sigChan
+	log.Println("received terminate, graceful shutdown", sig)
+
+	tc, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	srv.Shutdown(tc)
 }

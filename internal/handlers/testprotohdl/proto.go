@@ -2,10 +2,11 @@ package testprotohdl
 
 import (
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"test/internal/core/ports"
 	"test/pb"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type protoHandler struct {

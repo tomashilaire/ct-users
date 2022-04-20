@@ -66,8 +66,7 @@ func (r *testRepository) ShowAll() (t []*domain.Test, err error) {
 }
 
 func (r *testRepository) ShowById(id string) (t *domain.Test, err error) {
-	findResult := r.c.FindOne(context.TODO(), bson.M{"id": id})
-
+	findResult := r.c.FindOne(context.TODO(), bson.M{"_id": id})
 	decodeErr := findResult.Decode(&t)
 	if decodeErr != nil {
 		log.Println("Error in Repository -> ShowById()", decodeErr)
@@ -78,7 +77,7 @@ func (r *testRepository) ShowById(id string) (t *domain.Test, err error) {
 }
 
 func (r *testRepository) Delete(id string) error {
-	_, err := r.c.DeleteOne(context.TODO(), bson.M{"id": id})
+	_, err := r.c.DeleteOne(context.TODO(), bson.M{"_id": id})
 	if err != nil {
 		log.Println("Unable to delete element of id", id, "\nError", err)
 		return err
