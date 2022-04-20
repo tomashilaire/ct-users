@@ -20,6 +20,7 @@ message GetTestRequest{
 message GetTestResponse{
     string id = 1;
     string name = 2;
+    string action = 3;
 }
 
 message PutTestRequest{
