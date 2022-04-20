@@ -10,6 +10,7 @@ import (
 	"test/internal/handlers/testprotohdl"
 	"test/internal/repositories/testmongorepo"
 	"test/pb"
+	"test/pkg/uidgen"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -45,7 +46,7 @@ func main() {
 
 	// instance repository, service and handlers -> register handlers
 	tr := testmongorepo.NewTestRepository(db)
-	ts := testsrv.NewService(tr)
+	ts := testsrv.NewService(tr, uidgen.New())
 	th := testprotohdl.NewProtoHandler(ts)
 
 	// run server
