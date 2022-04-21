@@ -72,7 +72,6 @@ func (h *HTTPHandler) DeleteTest(w http.ResponseWriter, r *http.Request) {
 
 // swagger:route POST /tests tests createTest
 // Creates a test
-//
 // responses:
 //  200: idResponse
 //  400: errorResponse
