@@ -45,14 +45,15 @@ func (s *service) Delete(id string) error {
 	return nil
 }
 
-func (s *service) Update(id string, name string) (*domain.Test, error) {
+func (s *service) Update(id string, name string, action string) (*domain.Test, error) {
 	test, err := s.ShowById(id)
 	if err != nil {
 		return test, err
 	}
 	test.Name = name
+	test.Action = action
 	if err := s.tr.Update(test); err != nil {
-		return &domain.Test{}, errors.New(apperrors.Internal, err, "Create entity into repository failed", "")
+		return &domain.Test{}, errors.New(apperrors.Internal, err, "Update entity into repository failed", "")
 	}
 
 	return test, nil

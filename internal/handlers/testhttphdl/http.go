@@ -2,7 +2,9 @@ package testhttphdl
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"test/internal/core/domain"
 	"test/internal/core/ports"
 
 	"github.com/gorilla/mux"
@@ -37,15 +39,50 @@ func (h *HTTPHandler) GetAllTests(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *HTTPHandler) DeleteTest(w http.ResponseWriter, r *http.Request) {
-	panic("unimplemented")
+	id := mux.Vars(r)["id"]
+	err := h.ts.Delete(id)
+	if err != nil {
+		WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	WriteAsJson(w, http.StatusOK, fmt.Sprintf("Succesfully deleted document of id: %s", id))
 }
 
 func (h *HTTPHandler) PostTest(w http.ResponseWriter, r *http.Request) {
-	panic("unimplemented")
+	var t domain.Test
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	result, err := h.ts.Create(t.Name, t.Action)
+	if err != nil {
+		WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	WriteAsJson(w, http.StatusOK, result.Id)
 }
 
 func (h *HTTPHandler) PutTest(w http.ResponseWriter, r *http.Request) {
-	panic("unimplemented")
+	id := mux.Vars(r)["id"]
+
+	var t domain.Test
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	result, err := h.ts.Update(id, t.Name, t.Action)
+	if err != nil {
+		WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	WriteAsJson(w, http.StatusOK, result.Id)
 }
 
 // utils

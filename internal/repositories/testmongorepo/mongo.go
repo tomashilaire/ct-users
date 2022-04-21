@@ -29,7 +29,7 @@ func (r *testRepository) Create(t *domain.Test) error {
 }
 
 func (r *testRepository) Update(t *domain.Test) error {
-	_, err := r.c.UpdateByID(context.TODO(), t.Id, t)
+	_, err := r.c.UpdateByID(context.TODO(), t.Id, bson.M{"$set": t})
 	if err != nil {
 		log.Println("Error in Repository -> Update()", err)
 		return err
