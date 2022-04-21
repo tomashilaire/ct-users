@@ -25,11 +25,20 @@ message GetTestResponse{
 
 message PutTestRequest{
     string id = 1;
+    string name = 2;
+    string action = 3;
 }
-message PutTestResponse{}
+message PutTestResponse{
+    string id = 1;
+}
 
-message PostTestRequest{}
-message PostTestResponse{}
+message PostTestRequest{
+    string name = 1;
+    string action = 2;
+}
+message PostTestResponse{
+    string id = 1;
+}
 
 message DeleteTestRequest{
     string id = 1;

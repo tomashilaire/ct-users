@@ -47,16 +47,28 @@ func (ph *protoHandler) GetAllTests(req *pb.GetAllTestsRequest, stream pb.Test_G
 }
 
 // DeleteTest implements pb.TestServer
-func (ph *protoHandler) DeleteTest(context.Context, *pb.DeleteTestRequest) (*pb.DeleteTestResponse, error) {
-	panic("unimplemented")
+func (ph *protoHandler) DeleteTest(ctx context.Context, req *pb.DeleteTestRequest) (*pb.DeleteTestResponse, error) {
+	err := ph.ts.Delete(req.Id)
+	if err != nil {
+		return &pb.DeleteTestResponse{}, status.Errorf(codes.Internal, err.Error())
+	}
+	return &pb.DeleteTestResponse{}, nil
 }
 
 // PostTest implements pb.TestServer
-func (ph *protoHandler) PostTest(context.Context, *pb.PostTestRequest) (*pb.PostTestResponse, error) {
-	panic("unimplemented")
+func (ph *protoHandler) PostTest(ctx context.Context, req *pb.PostTestRequest) (*pb.PostTestResponse, error) {
+	nEntity, err := ph.ts.Create(req.Name, req.Action)
+	if err != nil {
+		return &pb.PostTestResponse{}, status.Errorf(codes.Internal, err.Error())
+	}
+	return &pb.PostTestResponse{Id: nEntity.Id}, nil
 }
 
 // PutTest implements pb.TestServer
-func (ph *protoHandler) PutTest(context.Context, *pb.PutTestRequest) (*pb.PutTestResponse, error) {
-	panic("unimplemented")
+func (ph *protoHandler) PutTest(ctx context.Context, req *pb.PutTestRequest) (*pb.PutTestResponse, error) {
+	uEntity, err := ph.ts.Update(req.Id, req.Name)
+	if err != nil {
+		return &pb.PutTestResponse{}, status.Errorf(codes.Internal, err.Error())
+	}
+	return &pb.PutTestResponse{Id: uEntity.Id}, nil
 }
