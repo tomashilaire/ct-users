@@ -13,6 +13,7 @@ import (
 	"test/pkg/uidgen"
 	"time"
 
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
@@ -27,6 +28,7 @@ func init() {
 }
 
 func main() {
+	// retrieve env variables
 	if local {
 		err := godotenv.Load()
 		if err != nil {
@@ -42,12 +44,14 @@ func main() {
 	}
 	defer db.Disconnect()
 
+	// instance repository and service -> register handlers
 	tr := testmongorepo.NewTestRepository(db)
 	ts := testsrv.NewService(tr, uidgen.New())
 	th := testhttphdl.NewHTTPHandler(ts)
 
 	r := mux.NewRouter()
 
+	// establish subrouters
 	getRouter := r.Methods("GET").Subrouter()
 	getRouter.HandleFunc("/tests", th.GetAllTests)
 	getRouter.HandleFunc("/tests/{id:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}}", th.GetTest)
@@ -61,6 +65,13 @@ func main() {
 	deleteRouter := r.Methods("DELETE").Subrouter()
 	deleteRouter.HandleFunc("/tests/{id:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}}", th.DeleteTest)
 
+	// serve docs endpoint
+	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
+	sh := middleware.Redoc(opts, nil)
+	getRouter.Handle("/docs", sh)
+	getRouter.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
+
+	// server config
 	srv := &http.Server{
 		Handler:      r,
 		Addr:         ":9090",
