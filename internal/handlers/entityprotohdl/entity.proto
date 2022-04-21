@@ -1,0 +1,46 @@
+syntax="proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service Entity {
+    rpc GetAllEntities(GetAllEntitiesRequest) returns (stream GetEntityResponse);
+    rpc GetEntity(GetEntityRequest) returns (GetEntityResponse);
+    rpc PutEntity(PutEntityRequest) returns (PutEntityResponse);
+    rpc PostEntity(PostEntityRequest) returns (PostEntityResponse);
+    rpc DeleteEntity(DeleteEntityRequest) returns (DeleteEntityResponse);
+}
+
+message GetAllEntitiesRequest{}
+
+message GetEntityRequest{
+    string id = 1;
+}
+message GetEntityResponse{
+    string id = 1;
+    string name = 2;
+    string action = 3;
+}
+
+message PutEntityRequest{
+    string id = 1;
+    string name = 2;
+    string action = 3;
+}
+message PutEntityResponse{
+    string id = 1;
+}
+
+message PostEntityRequest{
+    string name = 1;
+    string action = 2;
+}
+message PostEntityResponse{
+    string id = 1;
+}
+
+message DeleteEntityRequest{
+    string id = 1;
+}
+message DeleteEntityResponse{}

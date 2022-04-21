@@ -1,13 +1,13 @@
 package ports
 
 import (
-	"test/internal/core/domain"
+	"entity/internal/core/domain"
 )
 
-type TestRepository interface {
-	Create(t *domain.Test) error
-	Update(t *domain.Test) error
-	ShowAll() (t []*domain.Test, err error)
-	ShowById(id string) (t *domain.Test, err error)
+type EntityRepository interface {
+	Create(t *domain.Entity) error
+	Update(t *domain.Entity) error
+	ShowAll() (t []*domain.Entity, err error)
+	ShowById(id string) (t *domain.Entity, err error)
 	Delete(id string) error
 }
