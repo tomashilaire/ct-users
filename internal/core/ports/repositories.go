@@ -5,9 +5,9 @@ import (
 )
 
 type EntityRepository interface {
-	Create(t *domain.Entity) error
-	Update(t *domain.Entity) error
-	ShowAll() (t []*domain.Entity, err error)
-	ShowById(id string) (t *domain.Entity, err error)
+	Insert(t *domain.Entity) error
+	Set(t *domain.Entity) error
+	SelectAll() (t []*domain.Entity, err error)
+	SelectById(id string) (t *domain.Entity, err error)
 	Delete(id string) error
 }

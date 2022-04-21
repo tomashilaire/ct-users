@@ -13,13 +13,13 @@ type entityRepository struct {
 	c *mongo.Collection
 }
 
-const EntityCollection = "collection_name_here"
+const EntityCollection = "testing"
 
 func NewEntityRepository(conn *conn) *entityRepository {
 	return &entityRepository{c: conn.DB().Collection(EntityCollection)}
 }
 
-func (r *entityRepository) Create(t *domain.Entity) error {
+func (r *entityRepository) Insert(t *domain.Entity) error {
 	_, err := r.c.InsertOne(context.TODO(), t)
 	if err != nil {
 		log.Println("Error in Repository -> Create()", err)
@@ -28,7 +28,7 @@ func (r *entityRepository) Create(t *domain.Entity) error {
 	return nil
 }
 
-func (r *entityRepository) Update(t *domain.Entity) error {
+func (r *entityRepository) Set(t *domain.Entity) error {
 	_, err := r.c.UpdateByID(context.TODO(), t.Id, bson.M{"$set": t})
 	if err != nil {
 		log.Println("Error in Repository -> Update()", err)
@@ -37,7 +37,7 @@ func (r *entityRepository) Update(t *domain.Entity) error {
 	return nil
 }
 
-func (r *entityRepository) ShowAll() (t []*domain.Entity, err error) {
+func (r *entityRepository) SelectAll() (t []*domain.Entity, err error) {
 	cur, err := r.c.Find(context.TODO(), bson.D{})
 	if err != nil {
 		log.Println("Error in Repository -> ShowAll()", err)
@@ -65,7 +65,7 @@ func (r *entityRepository) ShowAll() (t []*domain.Entity, err error) {
 	return results, nil
 }
 
-func (r *entityRepository) ShowById(id string) (t *domain.Entity, err error) {
+func (r *entityRepository) SelectById(id string) (t *domain.Entity, err error) {
 	findResult := r.c.FindOne(context.TODO(), bson.M{"_id": id})
 	decodeErr := findResult.Decode(&t)
 	if decodeErr != nil {

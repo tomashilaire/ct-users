@@ -18,7 +18,7 @@ func NewService(tr ports.EntityRepository, uidGen uidgen.UIDGen) *service {
 }
 
 func (s *service) ShowById(id string) (*domain.Entity, error) {
-	entity, err := s.tr.ShowById(id)
+	entity, err := s.tr.SelectById(id)
 	if err != nil {
 		if errors.Is(err, apperrors.NotFound) {
 			return &domain.Entity{}, errors.New(apperrors.NotFound, err, "entity not found", "")
@@ -29,7 +29,7 @@ func (s *service) ShowById(id string) (*domain.Entity, error) {
 }
 
 func (s *service) ShowAll() ([]*domain.Entity, error) {
-	entities, err := s.tr.ShowAll()
+	entities, err := s.tr.SelectAll()
 	if err != nil {
 		return []*domain.Entity{}, errors.New(apperrors.Internal, err, "show all entities from repository has failed", "")
 	}
@@ -52,7 +52,7 @@ func (s *service) Update(id string, name string, action string) (*domain.Entity,
 	}
 	entity.Name = name
 	entity.Action = action
-	if err := s.tr.Update(entity); err != nil {
+	if err := s.tr.Set(entity); err != nil {
 		return &domain.Entity{}, errors.New(apperrors.Internal, err, "Update entity into repository failed", "")
 	}
 
@@ -63,7 +63,7 @@ func (s *service) Update(id string, name string, action string) (*domain.Entity,
 func (s *service) Create(name string, action string) (*domain.Entity, error) {
 	entity := domain.NewEntity(s.uidGen.New(), name, action)
 
-	if err := s.tr.Create(entity); err != nil {
+	if err := s.tr.Insert(entity); err != nil {
 		return &domain.Entity{}, errors.New(apperrors.Internal, err, "Create entity into repository failed", "")
 	}
 
