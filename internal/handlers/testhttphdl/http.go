@@ -18,6 +18,13 @@ func NewHTTPHandler(ts ports.TestService) *HTTPHandler {
 	return &HTTPHandler{ts: ts}
 }
 
+// swagger:route GET /tests/{id} tests findTest
+// Returns a test
+// responses:
+//	200: testResponse
+//	422: errorResponse
+
+// GetTest returns a test document from the database
 func (h *HTTPHandler) GetTest(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	result, err := h.ts.ShowById(id)
@@ -28,6 +35,13 @@ func (h *HTTPHandler) GetTest(w http.ResponseWriter, r *http.Request) {
 	WriteAsJson(w, http.StatusOK, result)
 }
 
+// swagger:route GET /tests tests listTests
+// Returns a list of tests
+// responses:
+//	200: testsResponse
+//	422: errorResponse
+
+// GetAllTest returns the test documents from the database
 func (h *HTTPHandler) GetAllTests(w http.ResponseWriter, r *http.Request) {
 	result, err := h.ts.ShowAll()
 	if err != nil {
@@ -38,6 +52,13 @@ func (h *HTTPHandler) GetAllTests(w http.ResponseWriter, r *http.Request) {
 	WriteAsJson(w, http.StatusOK, result)
 }
 
+// swagger:route DELETE /tests/{id} tests deleteTest
+// Deletes a test
+// responses:
+//	200: errorResponse
+//  500: errorResponse
+
+// DeleteTest deletes a test document from the database
 func (h *HTTPHandler) DeleteTest(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	err := h.ts.Delete(id)
@@ -49,6 +70,14 @@ func (h *HTTPHandler) DeleteTest(w http.ResponseWriter, r *http.Request) {
 	WriteAsJson(w, http.StatusOK, fmt.Sprintf("Succesfully deleted document of id: %s", id))
 }
 
+// swagger:route POST /tests tests createTest
+// Creates a test
+// responses:
+//  200: idResponse
+//  400: errorResponse
+//  500: errorResponse
+
+// PostTest creates a test document in the database
 func (h *HTTPHandler) PostTest(w http.ResponseWriter, r *http.Request) {
 	var t domain.Test
 	err := json.NewDecoder(r.Body).Decode(&t)
@@ -66,6 +95,14 @@ func (h *HTTPHandler) PostTest(w http.ResponseWriter, r *http.Request) {
 	WriteAsJson(w, http.StatusOK, result.Id)
 }
 
+// swagger:route PUT /tests/{id} tests updateTest
+// Updates a test
+// responses:
+//	200: idResponse
+//	400: errorResponse
+//	500: errorResponse
+
+// PutTest updates a test document in the database
 func (h *HTTPHandler) PutTest(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
