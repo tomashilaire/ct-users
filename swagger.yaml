@@ -1,0 +1,154 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  BodyWrapper:
+    properties:
+      action:
+        type: string
+        x-go-name: Action
+      name:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: test/internal/handlers/testhttphdl
+  IdWrapper:
+    properties:
+      id:
+        type: string
+        x-go-name: Id
+    type: object
+    x-go-package: test/internal/handlers/testhttphdl
+  MessageWrapper:
+    properties:
+      message:
+        type: string
+        x-go-name: Message
+    type: object
+    x-go-package: test/internal/handlers/testhttphdl
+  Test:
+    properties:
+      action:
+        type: string
+        x-go-name: Action
+      id:
+        type: string
+        x-go-name: Id
+      name:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: test/internal/core/domain
+info:
+  description: Documentation for Test API
+  title: Test API
+  version: 0.0.0
+paths:
+  /tests:
+    get:
+      description: Returns a list of tests
+      operationId: listTests
+      responses:
+        "200":
+          $ref: '#/responses/testsResponse'
+        "422":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - tests
+    post:
+      description: Creates a test
+      operationId: createTest
+      parameters:
+      - in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/BodyWrapper'
+      responses:
+        "200":
+          $ref: '#/responses/idResponse'
+        "400":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - tests
+  /tests/{id}:
+    delete:
+      description: Deletes a test
+      operationId: deleteTest
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      responses:
+        "200":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - tests
+    get:
+      description: Returns a test
+      operationId: findTest
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      responses:
+        "200":
+          $ref: '#/responses/testResponse'
+        "422":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - tests
+    put:
+      description: Updates a test
+      operationId: updateTest
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/BodyWrapper'
+      responses:
+        "200":
+          $ref: '#/responses/idResponse'
+        "400":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - tests
+produces:
+- application/json
+responses:
+  errorResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/MessageWrapper'
+  idResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/IdWrapper'
+  testResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Test'
+  testsResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Test'
+      type: array
+schemes:
+- http
+swagger: "2.0"
