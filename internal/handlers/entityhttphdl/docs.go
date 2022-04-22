@@ -1,6 +1,6 @@
-// Package classification Test API
+// Package classification Entity API
 //
-// Documentation for Test API
+// Documentation for Entity API
 //
 //	Schemes: http
 //	BasePath: /
@@ -12,27 +12,27 @@
 //	Produces:
 //	- application/json
 // swagger:meta
-package testhttphdl
+package entityhttphdl
 
-import "test/internal/core/domain"
+import "entity/internal/core/domain"
 
-// swagger:parameters findTest deleteTest updateTest
+// swagger:parameters findEntity deleteEntity updateEntity
 type IdParameter struct {
 	// in: path
 	// required: true
 	Id string `bson:"_id" json:"id"`
 }
 
-// swagger:response testResponse
-type TestResponse struct {
+// swagger:response entityResponse
+type EntityResponse struct {
 	// in: body
-	Body domain.Test
+	Body domain.Entity
 }
 
-// swagger:response testsResponse
-type TestsResponse struct {
+// swagger:response entitiesResponse
+type EntitiesResponse struct {
 	// in: body
-	Body []domain.Test
+	Body []domain.Entity
 }
 
 // swagger:response idResponse
@@ -47,14 +47,14 @@ type GenericError struct {
 	Message MessageWrapper
 }
 
-// swagger:parameters createTest
+// swagger:parameters createEntity
 type BodyCreate struct {
 	// in: body
 	// required: true
 	Body BodyWrapper
 }
 
-// swagger:parameters updateTest
+// swagger:parameters updateEntity
 type BodyUpdate struct {
 	// in: body
 	Body BodyWrapper

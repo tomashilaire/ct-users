@@ -11,22 +11,8 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: test/internal/handlers/testhttphdl
-  IdWrapper:
-    properties:
-      id:
-        type: string
-        x-go-name: Id
-    type: object
-    x-go-package: test/internal/handlers/testhttphdl
-  MessageWrapper:
-    properties:
-      message:
-        type: string
-        x-go-name: Message
-    type: object
-    x-go-package: test/internal/handlers/testhttphdl
-  Test:
+    x-go-package: entity/internal/handlers/entityhttphdl
+  Entity:
     properties:
       action:
         type: string
@@ -38,26 +24,40 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: test/internal/core/domain
+    x-go-package: entity/internal/core/domain
+  IdWrapper:
+    properties:
+      id:
+        type: string
+        x-go-name: Id
+    type: object
+    x-go-package: entity/internal/handlers/entityhttphdl
+  MessageWrapper:
+    properties:
+      message:
+        type: string
+        x-go-name: Message
+    type: object
+    x-go-package: entity/internal/handlers/entityhttphdl
 info:
-  description: Documentation for Test API
-  title: Test API
+  description: Documentation for Entity API
+  title: Entity API
   version: 0.0.0
 paths:
-  /tests:
+  /entities:
     get:
-      description: Returns a list of tests
-      operationId: listTests
+      description: Returns a list of entities
+      operationId: listEntities
       responses:
         "200":
-          $ref: '#/responses/testsResponse'
+          $ref: '#/responses/entitiesResponse'
         "422":
           $ref: '#/responses/errorResponse'
       tags:
-      - tests
+      - entities
     post:
-      description: Creates a test
-      operationId: createTest
+      description: Creates a entity
+      operationId: createEntity
       parameters:
       - in: body
         name: Body
@@ -72,11 +72,11 @@ paths:
         "500":
           $ref: '#/responses/errorResponse'
       tags:
-      - tests
-  /tests/{id}:
+      - entities
+  /entities/{id}:
     delete:
-      description: Deletes a test
-      operationId: deleteTest
+      description: Deletes a entity
+      operationId: deleteEntity
       parameters:
       - in: path
         name: id
@@ -89,10 +89,10 @@ paths:
         "500":
           $ref: '#/responses/errorResponse'
       tags:
-      - tests
+      - entities
     get:
-      description: Returns a test
-      operationId: findTest
+      description: Returns a entity
+      operationId: findEntity
       parameters:
       - in: path
         name: id
@@ -101,14 +101,14 @@ paths:
         x-go-name: Id
       responses:
         "200":
-          $ref: '#/responses/testResponse'
+          $ref: '#/responses/entityResponse'
         "422":
           $ref: '#/responses/errorResponse'
       tags:
-      - tests
+      - entities
     put:
-      description: Updates a test
-      operationId: updateTest
+      description: Updates a entity
+      operationId: updateEntity
       parameters:
       - in: path
         name: id
@@ -127,10 +127,20 @@ paths:
         "500":
           $ref: '#/responses/errorResponse'
       tags:
-      - tests
+      - entities
 produces:
 - application/json
 responses:
+  entitiesResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Entity'
+      type: array
+  entityResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Entity'
   errorResponse:
     description: ""
     schema:
@@ -139,16 +149,6 @@ responses:
     description: ""
     schema:
       $ref: '#/definitions/IdWrapper'
-  testResponse:
-    description: ""
-    schema:
-      $ref: '#/definitions/Test'
-  testsResponse:
-    description: ""
-    schema:
-      items:
-        $ref: '#/definitions/Test'
-      type: array
 schemes:
 - http
 swagger: "2.0"
