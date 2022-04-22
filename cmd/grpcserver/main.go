@@ -6,8 +6,11 @@ import (
 	"log"
 	"net"
 	"os"
+	"test/internal/core/services/filesrv"
 	"test/internal/core/services/testsrv"
+	"test/internal/handlers/filesprotohdl"
 	"test/internal/handlers/testprotohdl"
+	"test/internal/repositories/filess3repo"
 	"test/internal/repositories/testmongorepo"
 	"test/pb"
 	"test/pkg/uidgen"
@@ -49,6 +52,11 @@ func main() {
 	ts := testsrv.NewService(tr, uidgen.New())
 	th := testprotohdl.NewProtoHandler(ts)
 
+	// instance repository, service and handlers -> register handlers
+	fr := filess3repo.NewFilesRepository()
+	fs := filesrv.NewService(fr, uidgen.New())
+	fh := filesprotohdl.NewProtoHandler(fs)
+
 	// run server
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -61,6 +69,7 @@ func main() {
 	reflection.Register(gs)
 
 	pb.RegisterTestServer(gs, th)
+	pb.RegisterFilesServer(gs, fh)
 
 	log.Println(fmt.Sprintf("Service running on [::]:%d", port))
 
