@@ -13,7 +13,7 @@ type entityRepository struct {
 	c *mongo.Collection
 }
 
-const EntityCollection = "testing"
+const EntityCollection = "collection_name_here"
 
 func NewEntityRepository(conn *conn) *entityRepository {
 	return &entityRepository{c: conn.DB().Collection(EntityCollection)}
