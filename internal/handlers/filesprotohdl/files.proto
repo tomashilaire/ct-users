@@ -1,0 +1,37 @@
+syntax="proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+message FileInfo {
+  string file_type = 1;
+}
+
+message UploadFileRequest {
+  oneof data {
+    FileInfo info = 1;
+    bytes chunk_data = 2;
+  }
+}
+
+message UploadFileResponse {
+  string id = 1;
+  uint32 size = 2;
+}
+
+message DownloadFileRequest {
+  string filename = 1;
+}
+
+message DownloadFileResponse {
+  oneof data {
+    FileInfo info = 1;
+    bytes chunk_data = 2;
+  }
+}
+
+service Files {
+  rpc UploadFile (stream UploadFileRequest) returns (UploadFileResponse){};
+  rpc DownloadFile (DownloadFileRequest) returns (stream DownloadFileResponse){};
+}
