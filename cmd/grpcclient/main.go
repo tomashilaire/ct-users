@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
+	client "entity/client/grpcclient"
 	"flag"
 	"fmt"
 	"google.golang.org/grpc"
@@ -10,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	client "test/client/grpcclient"
 )
 
 func testUploadFile(grpcClient *client.GrpcClient) {
