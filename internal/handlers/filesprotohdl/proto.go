@@ -3,6 +3,9 @@ package filesprotohdl
 import (
 	"bufio"
 	"bytes"
+	"entity/internal/core/ports"
+	"entity/pb"
+	"entity/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"io"
@@ -10,9 +13,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"test/internal/core/ports"
-	"test/pb"
-	"test/pkg/errors"
 )
 
 const maxfileSize = 1 << 23
