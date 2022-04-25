@@ -1,11 +1,17 @@
 package main
 
 import (
+	"entity/internal/core/services/entitysrv"
+	"entity/internal/handlers/entityprotohdl"
+	"entity/internal/repositories/entitymongorepo"
+	"entity/pb"
+	"entity/pkg/uidgen"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+<<<<<<< HEAD
 	"test/internal/core/services/filesrv"
 	"test/internal/core/services/testsrv"
 	"test/internal/handlers/filesprotohdl"
@@ -14,6 +20,8 @@ import (
 	"test/internal/repositories/testmongorepo"
 	"test/pb"
 	"test/pkg/uidgen"
+=======
+>>>>>>> development
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -40,17 +48,17 @@ func main() {
 	}
 
 	// db config and conn
-	cfg := testmongorepo.NewConfig()
-	db, err := testmongorepo.NewConnection(cfg)
+	cfg := entitymongorepo.NewConfig()
+	db, err := entitymongorepo.NewConnection(cfg)
 	if err != nil {
 		log.Println("Unable to connect", err)
 	}
 	defer db.Disconnect()
 
 	// instance repository, service and handlers -> register handlers
-	tr := testmongorepo.NewTestRepository(db)
-	ts := testsrv.NewService(tr, uidgen.New())
-	th := testprotohdl.NewProtoHandler(ts)
+	tr := entitymongorepo.NewEntityRepository(db)
+	ts := entitysrv.NewService(tr, uidgen.New())
+	th := entityprotohdl.NewProtoHandler(ts)
 
 	// instance repository, service and handlers -> register handlers
 	fr := filess3repo.NewFilesRepository()
@@ -68,10 +76,14 @@ func main() {
 	gs := grpc.NewServer()
 	reflection.Register(gs)
 
+<<<<<<< HEAD
 	pb.RegisterTestServer(gs, th)
 	pb.RegisterFilesServer(gs, fh)
+=======
+	pb.RegisterEntityServer(gs, th)
+>>>>>>> development
 
-	log.Println(fmt.Sprintf("Service running on [::]:%d", port))
+	log.Println(fmt.Sprintf("grpc service running on [::]:%d", port))
 
 	gs.Serve(listener)
 }

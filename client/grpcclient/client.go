@@ -4,26 +4,26 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"entity/pb"
+	"entity/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
-	"test/pb"
-	"test/pkg/errors"
 	"time"
 )
 
 type GrpcClient struct {
 	fileService   pb.FilesClient
-	entityService pb.TestClient
+	entityService pb.EntityClient
 }
 
 // NewGrpcClient returns a new grpc client
 func NewGrpcClient(cc *grpc.ClientConn) *GrpcClient {
 	fileService := pb.NewFilesClient(cc)
-	entityService := pb.NewTestClient(cc)
+	entityService := pb.NewEntityClient(cc)
 	return &GrpcClient{fileService: fileService, entityService: entityService}
 }
 

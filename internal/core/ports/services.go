@@ -2,14 +2,14 @@ package ports
 
 import (
 	"bytes"
-	"test/internal/core/domain"
+	"entity/internal/core/domain"
 )
 
-type TestService interface {
-	ShowById(id string) (*domain.Test, error)
-	ShowAll() ([]*domain.Test, error)
-	Update(id string, name string) (*domain.Test, error)
-	Create(name string, action string) (*domain.Test, error)
+type EntityService interface {
+	ShowById(id string) (*domain.Entity, error)
+	ShowAll() ([]*domain.Entity, error)
+	Update(id string, name string, action string) (*domain.Entity, error)
+	Create(name string, action string) (*domain.Entity, error)
 	Delete(id string) error
 }
 

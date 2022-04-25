@@ -1,6 +1,6 @@
 package apperrors
 
-import "test/pkg/errors"
+import "entity/pkg/errors"
 
 var (
 	NotFound         = errors.Define("not_found")

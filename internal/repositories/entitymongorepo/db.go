@@ -1,4 +1,4 @@
-package testmongorepo
+package entitymongorepo
 
 import (
 	"context"
