@@ -2,7 +2,7 @@ package ports
 
 import (
 	"bytes"
-	"entity/internal/core/domain"
+	"root/internal/core/domain"
 )
 
 type EntityService interface {

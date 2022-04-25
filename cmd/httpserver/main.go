@@ -2,15 +2,15 @@ package main
 
 import (
 	"context"
-	"entity/internal/core/services/entitysrv"
-	"entity/internal/handlers/entityhttphdl"
-	"entity/internal/repositories/entitymongorepo"
-	"entity/pkg/uidgen"
 	"flag"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"root/internal/core/services/entitysrv"
+	"root/internal/handlers/entityhttphdl"
+	"root/internal/repositories/entitymongorepo"
+	"root/pkg/uidgen"
 	"time"
 
 	"github.com/go-openapi/runtime/middleware"

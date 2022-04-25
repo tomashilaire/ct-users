@@ -2,8 +2,8 @@ package entityprotohdl
 
 import (
 	"context"
-	"entity/internal/core/ports"
-	"entity/pb"
+	"root/internal/core/ports"
+	"root/pb"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
