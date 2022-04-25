@@ -1,6 +1,7 @@
 package ports
 
 import (
+	"bytes"
 	"entity/internal/core/domain"
 )
 
@@ -10,4 +11,9 @@ type EntityService interface {
 	Update(id string, name string, action string) (*domain.Entity, error)
 	Create(name string, action string) (*domain.Entity, error)
 	Delete(id string) error
+}
+
+type FilesService interface {
+	Upload(filePath string, fileType string, fileData bytes.Buffer) (string, error)
+	Download(filePath string, id string, fileType string) (*domain.FileInfo, error)
 }

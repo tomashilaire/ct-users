@@ -11,6 +11,17 @@ import (
 	"log"
 	"net"
 	"os"
+<<<<<<< HEAD
+	"test/internal/core/services/filesrv"
+	"test/internal/core/services/testsrv"
+	"test/internal/handlers/filesprotohdl"
+	"test/internal/handlers/testprotohdl"
+	"test/internal/repositories/filess3repo"
+	"test/internal/repositories/testmongorepo"
+	"test/pb"
+	"test/pkg/uidgen"
+=======
+>>>>>>> development
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -49,6 +60,11 @@ func main() {
 	ts := entitysrv.NewService(tr, uidgen.New())
 	th := entityprotohdl.NewProtoHandler(ts)
 
+	// instance repository, service and handlers -> register handlers
+	fr := filess3repo.NewFilesRepository()
+	fs := filesrv.NewService(fr, uidgen.New())
+	fh := filesprotohdl.NewProtoHandler(fs)
+
 	// run server
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -60,7 +76,12 @@ func main() {
 	gs := grpc.NewServer()
 	reflection.Register(gs)
 
+<<<<<<< HEAD
+	pb.RegisterTestServer(gs, th)
+	pb.RegisterFilesServer(gs, fh)
+=======
 	pb.RegisterEntityServer(gs, th)
+>>>>>>> development
 
 	log.Println(fmt.Sprintf("grpc service running on [::]:%d", port))
 
