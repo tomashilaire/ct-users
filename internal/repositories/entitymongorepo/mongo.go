@@ -4,6 +4,7 @@ import (
 	"context"
 	"entity/internal/core/domain"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,10 +14,8 @@ type entityRepository struct {
 	c *mongo.Collection
 }
 
-const EntityCollection = "collection_name_here"
-
 func NewEntityRepository(conn *conn) *entityRepository {
-	return &entityRepository{c: conn.DB().Collection(EntityCollection)}
+	return &entityRepository{c: conn.DB().Collection(os.Getenv("DB_COLLECTION"))}
 }
 
 func (r *entityRepository) Insert(t *domain.Entity) error {

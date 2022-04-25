@@ -52,3 +52,6 @@ Thumbs.db
 
 pb/
 *.pb.go
+
+grpcsvr
+httpsvr
