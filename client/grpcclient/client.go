@@ -16,13 +16,15 @@ import (
 )
 
 type GrpcClient struct {
-	fileService pb.FilesClient
+	fileService   pb.FilesClient
+	entityService pb.TestClient
 }
 
 // NewGrpcClient returns a new grpc client
 func NewGrpcClient(cc *grpc.ClientConn) *GrpcClient {
-	service := pb.NewFilesClient(cc)
-	return &GrpcClient{service}
+	fileService := pb.NewFilesClient(cc)
+	entityService := pb.NewTestClient(cc)
+	return &GrpcClient{fileService: fileService, entityService: entityService}
 }
 
 // UploadFile calls upload file RPC
