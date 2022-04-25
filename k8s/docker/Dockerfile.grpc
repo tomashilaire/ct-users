@@ -6,4 +6,4 @@ COPY grpcsvr /app/grpcsvr
 
 EXPOSE 9092
 
-CMD ["/app/grpcsvr", "-local=false"]
+CMD ["/app/grpcsvr", "-local=false", "-port=9092"]
