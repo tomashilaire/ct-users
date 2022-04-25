@@ -1,0 +1,9 @@
+FROM golang
+
+WORKDIR /app
+
+COPY grpcsvr /app/grpcsvr
+
+EXPOSE 9092
+
+CMD ["/app/grpcsvr", "-local=false"]
