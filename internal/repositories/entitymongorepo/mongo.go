@@ -2,9 +2,9 @@ package entitymongorepo
 
 import (
 	"context"
-	"entity/internal/core/domain"
 	"log"
 	"os"
+	"root/internal/core/domain"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

@@ -1,11 +1,11 @@
 package entitysrv
 
 import (
-	"entity/internal/core/domain"
-	"entity/internal/core/ports"
-	"entity/pkg/apperrors"
-	"entity/pkg/errors"
-	"entity/pkg/uidgen"
+	"root/internal/core/domain"
+	"root/internal/core/ports"
+	"root/pkg/apperrors"
+	"root/pkg/errors"
+	"root/pkg/uidgen"
 )
 
 type service struct {

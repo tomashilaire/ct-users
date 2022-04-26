@@ -2,8 +2,6 @@ package filess3repo
 
 import (
 	"bytes"
-	"entity/internal/core/domain"
-	"entity/pkg/errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -12,6 +10,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"os"
+	"root/internal/core/domain"
+	"root/pkg/errors"
 )
 
 type s3Repository struct {

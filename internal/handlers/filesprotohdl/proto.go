@@ -3,15 +3,15 @@ package filesprotohdl
 import (
 	"bufio"
 	"bytes"
-	"entity/internal/core/ports"
-	"entity/pb"
-	"entity/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
+	"root/internal/core/ports"
+	"root/pb"
+	"root/pkg/errors"
 	"strings"
 )
 

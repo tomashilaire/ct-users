@@ -4,14 +4,14 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"entity/pb"
-	"entity/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
+	"root/pb"
+	"root/pkg/errors"
 	"time"
 )
 

@@ -2,10 +2,10 @@ package entityhttphdl
 
 import (
 	"encoding/json"
-	"entity/internal/core/domain"
-	"entity/internal/core/ports"
 	"fmt"
 	"net/http"
+	"root/internal/core/domain"
+	"root/internal/core/ports"
 
 	"github.com/gorilla/mux"
 )

@@ -1,19 +1,19 @@
 package main
 
 import (
-	"entity/internal/core/services/entitysrv"
-	"entity/internal/core/services/filesrv"
-	"entity/internal/handlers/entityprotohdl"
-	"entity/internal/handlers/filesprotohdl"
-	"entity/internal/repositories/entitymongorepo"
-	"entity/internal/repositories/filess3repo"
-	"entity/pb"
-	"entity/pkg/uidgen"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"root/internal/core/services/entitysrv"
+	"root/internal/core/services/filesrv"
+	"root/internal/handlers/entityprotohdl"
+	"root/internal/handlers/filesprotohdl"
+	"root/internal/repositories/entitymongorepo"
+	"root/internal/repositories/filess3repo"
+	"root/pb"
+	"root/pkg/uidgen"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
