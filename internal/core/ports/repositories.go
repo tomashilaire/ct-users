@@ -17,3 +17,12 @@ type FileRepository interface {
 	Save(f *domain.FileInfo) (*domain.FileInfo, error)
 	Load(p string) (*bytes.Buffer, error)
 }
+
+type UsersRepository interface {
+	Save(user *domain.User) error
+	GetById(id string) (user *domain.User, err error)
+	GetByEmail(email string) (user *domain.User, err error)
+	GetAll() (users []*domain.User, err error)
+	Update(user *domain.User) error
+	Delete(id string) error
+}
