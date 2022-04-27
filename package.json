@@ -1,7 +1,7 @@
 {
   "name": "grpc-authentication-client",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "client/node/index.js",
   "repository": "@agroproag/am_authentication/src/master/",
   "dependencies": {
     "@grpc/grpc-js": "^1.1.0",
