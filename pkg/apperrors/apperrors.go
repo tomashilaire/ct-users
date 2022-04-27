@@ -7,4 +7,6 @@ var (
 	IllegalOperation = errors.Define("illegal_operation")
 	InvalidInput     = errors.Define("invalid_input")
 	Internal         = errors.Define("internal")
+
+	ErrInvalidToken = errors.Define("invalid_jwt")
 )
