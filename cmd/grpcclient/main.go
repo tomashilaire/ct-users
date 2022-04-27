@@ -25,6 +25,15 @@ func testDownloadFile(grpcClient *client.GrpcClient) {
 	}
 }
 
+func testSignUp(grpcClient *client.GrpcClient) {
+	id := grpcClient.SignUp("thilaire",
+		"tomas@agropro.ag",
+		"7410",
+		"7410",
+		"partner")
+	log.Println(id)
+}
+
 func loadTLSCredentials() (credentials.TransportCredentials, error) {
 	// Load certificate of the CA who signed server's certificate
 	pemServerCA, err := ioutil.ReadFile("cert/ca-cert.pem")
@@ -78,5 +87,5 @@ func main() {
 	}
 
 	laptopClient := client.NewGrpcClient(cc2)
-	testDownloadFile(laptopClient)
+	testSignUp(laptopClient)
 }

@@ -8,12 +8,17 @@ import (
 	"os"
 	"root/internal/core/services/entitysrv"
 	"root/internal/core/services/filesrv"
+	"root/internal/core/services/userssrv"
 	"root/internal/handlers/entityprotohdl"
 	"root/internal/handlers/filesprotohdl"
+	"root/internal/handlers/usersprotohdl"
 	"root/internal/repositories/entitymongorepo"
 	"root/internal/repositories/filess3repo"
+	"root/internal/repositories/usersmongorepo"
 	"root/pb"
+	"root/pkg/security"
 	"root/pkg/uidgen"
+	"root/pkg/validators"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -57,6 +62,12 @@ func main() {
 	fs := filesrv.NewService(fr, uidgen.New())
 	fh := filesprotohdl.NewProtoHandler(fs)
 
+	// instance repository, service and handlers -> register handlers
+	ur := usersmongorepo.NewUsersRepository()
+	defer ur.Disconnect()
+	us := userssrv.NewService(ur, uidgen.New(), validators.NewValidators(), security.NewSecurity())
+	uh := usersprotohdl.NewProtoHandler(us)
+
 	// run server
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -70,6 +81,7 @@ func main() {
 
 	pb.RegisterEntityServer(gs, th)
 	pb.RegisterFilesServer(gs, fh)
+	pb.RegisterAuthenticationServer(gs, uh)
 
 	log.Println(fmt.Sprintf("grpc service running on [::]:%d", port))
 
