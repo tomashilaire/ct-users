@@ -47,7 +47,7 @@ message SignUpResponse {
 
 service Authentication {
   rpc SignUp(SignUpRequest) returns (SignUpResponse);
-//  rpc SignIn(SignInRequest) returns (SignInResponse);
+  rpc SignIn(SignInRequest) returns (SignInResponse);
 //  rpc GetUser(GetUserRequest) returns (User);
 //  rpc ListUsers(ListUsersRequest) returns (stream User);
 //  rpc UpdateUser(User) returns (User);
