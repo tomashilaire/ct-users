@@ -10,3 +10,4 @@ protos:
 # con protoc
 	protoc -I=./internal/handlers/filesprotohdl --go_out=plugins=grpc:. ./internal/handlers/filesprotohdl/*.proto
 	protoc -I=./internal/handlers/entityprotohdl --go_out=plugins=grpc:. ./internal/handlers/entityprotohdl/*.proto
+	protoc -I=./internal/handlers/usersprotohdl --go_out=plugins=grpc:. ./internal/handlers/usersprotohdl/*.proto
