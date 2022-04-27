@@ -18,12 +18,13 @@ function connect(host, port) {
 }
 
 function signUp(client, signUpForm, callback) {
+    const {name, email, password, confirmPassword, type} = signUpForm
     client.SignUp({
-        name: signUpForm.name,
-        email: signUpForm.email,
-        password: signUpForm.password,
-        confirmPassword: signUpForm.confirmPassword,
-        type: signUpForm.type
+        name: name,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        type: type
     }, function(err, response) {
         if (err) {
             console.log(err.message);
@@ -33,5 +34,7 @@ function signUp(client, signUpForm, callback) {
     });
 }
 
-exports.signUp = signUp;
-exports.connect = connect;
+module.exports = {
+    signUp,
+    connect
+}
