@@ -1,8 +1,8 @@
-var PROTO_PATH = __dirname + '/../../internal/handlers/usersprotohdl/users.proto';
+let PROTO_PATH = __dirname + '/../../internal/handlers/usersprotohdl/users.proto';
 
-var grpc = require('@grpc/grpc-js');
-var protoLoader = require('@grpc/proto-loader');
-var packageDefinition = protoLoader.loadSync(
+let grpc = require('@grpc/grpc-js');
+let protoLoader = require('@grpc/proto-loader');
+let packageDefinition = protoLoader.loadSync(
     PROTO_PATH,
     {keepCase: true,
         longs: String,
@@ -10,7 +10,7 @@ var packageDefinition = protoLoader.loadSync(
         defaults: true,
         oneofs: true
     });
-var user_proto = grpc.loadPackageDefinition(packageDefinition).pb;
+let user_proto = grpc.loadPackageDefinition(packageDefinition).pb;
 
 function connect(host, port) {
     return new user_proto.Authentication(host+":"+port,
