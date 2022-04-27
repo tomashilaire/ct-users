@@ -4,7 +4,7 @@
   "main": "client/node/index.js",
   "repository": "@agroproag/am_authentication/src/master/",
   "files": [
-    "client/node/index.js",
+    "client/node/",
     "internal/handlers"
   ],
 "dependencies": {
