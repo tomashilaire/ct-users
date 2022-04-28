@@ -6,13 +6,11 @@ import (
 	"log"
 	"net"
 	"os"
-	"root/internal/core/services/entitysrv"
 	"root/internal/core/services/filesrv"
 	"root/internal/core/services/userssrv"
-	"root/internal/handlers/entityprotohdl"
 	"root/internal/handlers/filesprotohdl"
 	"root/internal/handlers/usersprotohdl"
-	"root/internal/repositories/entitymongorepo"
+	"root/internal/interceptors/authgrpcintrcp"
 	"root/internal/repositories/filess3repo"
 	"root/internal/repositories/usersmongorepo"
 	"root/pb"
@@ -36,6 +34,14 @@ func init() {
 	flag.Parse()
 }
 
+func accessibleMethods() map[string][]string {
+	const authServicePath = "/pb.Authentication/"
+
+	return map[string][]string{
+		authServicePath + "Authenticate": {},
+	}
+}
+
 func main() {
 	if local {
 		err := godotenv.Load()
@@ -43,19 +49,6 @@ func main() {
 			log.Println("Unable to retrieve env variables", err)
 		}
 	}
-
-	// db config and conn
-	cfg := entitymongorepo.NewConfig()
-	db, err := entitymongorepo.NewConnection(cfg)
-	if err != nil {
-		log.Println("Unable to connect", err)
-	}
-	defer db.Disconnect()
-
-	// instance repository, service and handlers -> register handlers
-	tr := entitymongorepo.NewEntityRepository(db)
-	ts := entitysrv.NewService(tr, uidgen.New())
-	th := entityprotohdl.NewProtoHandler(ts)
 
 	// instance repository, service and handlers -> register handlers
 	fr := filess3repo.NewFilesRepository()
@@ -74,12 +67,17 @@ func main() {
 		log.Println("Unable to listen", err)
 		os.Exit(1)
 	}
+	interceptor := authgrpcintrcp.NewAuthInterceptor(security.NewSecurity(), accessibleMethods())
+
+	serverOptions := []grpc.ServerOption{
+		grpc.UnaryInterceptor(interceptor.Unary()),
+		grpc.StreamInterceptor(interceptor.Stream()),
+	}
 
 	// register server
-	gs := grpc.NewServer()
+	gs := grpc.NewServer(serverOptions...)
 	reflection.Register(gs)
 
-	pb.RegisterEntityServer(gs, th)
 	pb.RegisterFilesServer(gs, fh)
 	pb.RegisterAuthenticationServer(gs, uh)
 
