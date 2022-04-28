@@ -1,6 +1,7 @@
 package userssrv
 
 import (
+	"log"
 	"root/internal/core/domain"
 	"root/internal/core/ports"
 	"root/pkg/apperrors"
@@ -61,4 +62,32 @@ func (s *service) SignUp(name string, email string, password string,
 	return &domain.User{}, errors.LogError(errors.New(apperrors.InvalidInput,
 		nil, "User already exists", ""))
 
+}
+
+func (s *service) SignIn(email string, password string) (u *domain.User, token string, err error) {
+	email = s.v.NormalizeEmail(email)
+
+	usr, err := s.ur.GetByEmail(email)
+	if err == apperrors.NotFound {
+		return &domain.User{}, "", errors.LogError(errors.New(apperrors.InvalidInput,
+			err, "Wrong email or password", ""))
+	} else if err != nil {
+		return &domain.User{}, "", errors.LogError(errors.New(apperrors.Internal,
+			err, "Error signin", ""))
+	}
+	err = s.sec.VerifyPassword(usr.Password, password)
+	if err != nil {
+		return &domain.User{}, "", errors.LogError(errors.New(apperrors.InvalidInput,
+			err, "Wrong email or password", ""))
+
+	}
+
+	token, err = s.sec.NewToken(usr.Id)
+	if err != nil {
+		log.Println("signin failed:", err.Error())
+		return &domain.User{}, "", errors.LogError(errors.New(apperrors.ErrInvalidToken,
+			err, "signin failed", ""))
+	}
+
+	return usr, token, nil
 }
