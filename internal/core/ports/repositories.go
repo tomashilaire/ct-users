@@ -25,4 +25,6 @@ type UsersRepository interface {
 	GetAll() (users []*domain.User, err error)
 	Update(user *domain.User) error
 	Delete(id string) error
+
+	Disconnect()
 }

@@ -5,17 +5,27 @@ import (
 	"log"
 	"os"
 	"root/internal/core/domain"
+	"root/pkg/apperrors"
+	"root/pkg/errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type usersRepository struct {
-	c *mongo.Collection
+	conn *conn
+	c    *mongo.Collection
 }
 
-func NewUsersRepository(conn *conn) *usersRepository {
-	return &usersRepository{c: conn.DB().Collection(os.Getenv("DB_COLLECTION"))}
+func NewUsersRepository() *usersRepository {
+	// db config and conn
+	cfg := NewConfig()
+	conn, err := NewConnection(cfg)
+	if err != nil {
+		log.Println("Unable to connect", err)
+	}
+	return &usersRepository{c: conn.DB().Collection(os.Getenv("DB_COLLECTION")),
+		conn: conn}
 }
 
 func (r *usersRepository) Save(t *domain.User) error {
@@ -66,6 +76,10 @@ func (r *usersRepository) GetAll() (t []*domain.User, err error) {
 
 func (r *usersRepository) GetById(id string) (t *domain.User, err error) {
 	findResult := r.c.FindOne(context.TODO(), bson.M{"_id": id})
+	if findResult.Err() == mongo.ErrNoDocuments {
+		return &domain.User{}, errors.LogError(errors.New(apperrors.NotFound,
+			mongo.ErrNoDocuments, "Document not found", ""))
+	}
 	decodeErr := findResult.Decode(&t)
 	if decodeErr != nil {
 		log.Println("Error in Repository -> GetById()", decodeErr)
@@ -77,6 +91,9 @@ func (r *usersRepository) GetById(id string) (t *domain.User, err error) {
 
 func (r *usersRepository) GetByEmail(email string) (t *domain.User, err error) {
 	findResult := r.c.FindOne(context.TODO(), bson.M{"email": email})
+	if findResult.Err() == mongo.ErrNoDocuments {
+		return &domain.User{}, errors.LogError(apperrors.NotFound)
+	}
 	decodeErr := findResult.Decode(&t)
 	if decodeErr != nil {
 		log.Println("Error in Repository -> GetByEmail()", decodeErr)
@@ -93,4 +110,8 @@ func (r *usersRepository) Delete(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (r *usersRepository) Disconnect() {
+	r.conn.Disconnect()
 }
