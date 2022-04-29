@@ -11,37 +11,29 @@ let packageDefinition = protoLoader.loadSync(
         oneofs: true
     });
 let user_proto = grpc.loadPackageDefinition(packageDefinition).pb;
-
 let interceptor = function(options, nextCall) {
     let requester = {
         start: function(metadata, listener, next) {
             let newListener = {
                 onReceiveMetadata: function(metadata, next) {
-                    console.log("start onReceiveMetadata")
                     next(metadata);
                 },
                 onReceiveMessage: function(message, next) {
-                    console.log("start onReceiveMessage")
                     next(message);
                 },
                 onReceiveStatus: function(status, next) {
-                    console.log("start onReceiveStatus")
                     next(status);
                 }
             };
             next(metadata, newListener);
         },
         sendMessage: function(message, next) {
-            console.log("sendMessage")
-            console.log(message)
             next(message);
         },
         halfClose: function(next) {
-            console.log("halfClose")
             next();
         },
         cancel: function(message, next) {
-            console.log("cancel")
             next();
         }
     };
