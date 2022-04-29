@@ -27,25 +27,6 @@ func NewGrpcClient(cc *grpc.ClientConn) *GrpcClient {
 	return &GrpcClient{fileService: fileService, authService: authService}
 }
 
-// SignUp calls sign up RPC
-func (grpcClient *GrpcClient) SignUp(name string, email string,
-	password string, confirmPassword string, userType string) (id string) {
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	req := new(pb.SignUpRequest)
-	req.Name = name
-	req.Email = email
-	req.Password = password
-	req.ConfirmPassword = confirmPassword
-	req.Type = userType
-	resp, err := grpcClient.authService.SignUp(ctx, req)
-	if err != nil {
-		log.Fatal("cannot sign up, error: ", err)
-	}
-	return resp.User.Id
-}
-
 // UploadFile calls upload file RPC
 func (grpcClient *GrpcClient) UploadFile(filePath string) {
 	file, err := os.Open(filePath)

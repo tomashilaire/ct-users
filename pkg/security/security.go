@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"log"
 	"os"
+	"strings"
 )
 
 type Security interface {
@@ -21,17 +22,16 @@ type security struct {
 }
 
 func NewSecurity() Security {
-	signBytes := []byte(os.Getenv("JWT_PRIV_KEY"))
+	signBytes := []byte(strings.ReplaceAll(os.Getenv("JWT_PRIV_KEY"), "\\n", "\n"))
 
 	signKey, err := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Parse sign KEY failed: ", err)
 	}
-	verifyBytes := []byte(os.Getenv("JWT_PUB_KEY"))
-
+	verifyBytes := []byte(strings.ReplaceAll(os.Getenv("JWT_PUB_KEY"), "\\n", "\n"))
 	verifyKey, err := jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Parse verify KEY failed: ", err)
 	}
 	return &security{
 		verifyKey: verifyKey,
