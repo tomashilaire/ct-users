@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	client "root/client/grpcclient"
+	client "root/client/go"
 )
 
 func testUploadFile(grpcClient *client.GrpcClient) {
@@ -26,12 +26,23 @@ func testDownloadFile(grpcClient *client.GrpcClient) {
 }
 
 func testSignUp(grpcClient *client.GrpcClient) {
-	id := grpcClient.SignUp("thilaire",
+	id, _ := grpcClient.SignUp("thilaire",
 		"tomas@agropro.ag",
 		"7410",
 		"7410",
 		"partner")
 	log.Println(id)
+}
+func testSignIn(grpcClient *client.GrpcClient) string {
+	_, token, _ := grpcClient.SignIn("tomas@agropro.ag",
+		"7410")
+	return token
+}
+
+func testAuthenticate(grpcClient *client.GrpcClient, token string) string {
+	id, _ := grpcClient.Authenticate(token)
+	log.Println(id)
+	return id
 }
 
 func loadTLSCredentials() (credentials.TransportCredentials, error) {
@@ -61,6 +72,14 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 	return credentials.NewTLS(config), nil
 }
 
+func authMethods() map[string]bool {
+	const authServicePath = "/pb.Authentication/"
+
+	return map[string]bool{
+		authServicePath + "Authenticate": true,
+	}
+}
+
 func main() {
 	serverAddress := flag.String("address", "localhost:9092", "the server address")
 	enableTLS := flag.Bool("tls", false, "enable SSL/TLS")
@@ -86,6 +105,9 @@ func main() {
 		log.Fatal("cannot dial server: ", err)
 	}
 
-	laptopClient := client.NewGrpcClient(cc2)
-	testSignUp(laptopClient)
+	authClient := client.NewGrpcClient(cc2)
+
+	//testSignUp(authClient)
+	token := testSignIn(authClient)
+	testAuthenticate(authClient, token)
 }
