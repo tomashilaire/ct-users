@@ -14,7 +14,7 @@
 // swagger:meta
 package entityhttphdl
 
-import "entity/internal/core/domain"
+import "root/internal/core/domain"
 
 // swagger:parameters findEntity deleteEntity updateEntity
 type IdParameter struct {
