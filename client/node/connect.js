@@ -13,14 +13,39 @@ let packageDefinition = protoLoader.loadSync(
 let user_proto = grpc.loadPackageDefinition(packageDefinition).pb;
 
 let interceptor = function(options, nextCall) {
-    return new grpc.InterceptingCall(nextCall(options), {
+    let requester = {
+        start: function(metadata, listener, next) {
+            let newListener = {
+                onReceiveMetadata: function(metadata, next) {
+                    console.log("start onReceiveMetadata")
+                    next(metadata);
+                },
+                onReceiveMessage: function(message, next) {
+                    console.log("start onReceiveMessage")
+                    next(message);
+                },
+                onReceiveStatus: function(status, next) {
+                    console.log("start onReceiveStatus")
+                    next(status);
+                }
+            };
+            next(metadata, newListener);
+        },
         sendMessage: function(message, next) {
-            console.log("intercepted");
-            console.log(message);
-            console.log(options.method_descriptor.name)
+            console.log("sendMessage")
+            console.log(message)
             next(message);
+        },
+        halfClose: function(next) {
+            console.log("halfClose")
+            next();
+        },
+        cancel: function(message, next) {
+            console.log("cancel")
+            next();
         }
-    });
+    };
+    return new grpc.InterceptingCall(nextCall(options), requester);
 };
 
 module.exports = function connect(host, port) {
