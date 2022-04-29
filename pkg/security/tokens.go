@@ -5,31 +5,27 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"log"
 	"net/http"
-	"os"
 	"root/pkg/apperrors"
 	"strings"
 	"time"
 )
 
-var (
-	jwtSecretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
-)
-
 func (s *security) NewToken(userId string) (string, error) {
+
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Minute * 5).Unix(),
 		Issuer:    userId,
 		IssuedAt:  time.Now().Unix(),
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecretKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	return token.SignedString(s.signKey)
 }
 
 func (s *security) parseJwtCallback(token *jwt.Token) (interface{}, error) {
-	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+	if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 		return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 	}
-	return jwtSecretKey, nil
+	return s.verifyKey, nil
 }
 
 func (s *security) ExtractToken(r *http.Request) (string, error) {

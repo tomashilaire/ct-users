@@ -3,6 +3,7 @@ package usersprotohdl
 import (
 	"context"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"root/internal/core/ports"
 	"root/pb"
@@ -48,4 +49,15 @@ func (ph *protoHandler) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.
 		},
 		Token: token,
 	}, nil
+}
+
+// Authenticate implements pb.AuthenticationServer
+func (ph *protoHandler) Authenticate(ctx context.Context,
+	req *pb.AuthenticateRequest) (*pb.AuthenticateResponse, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return &pb.AuthenticateResponse{}, status.Errorf(codes.Internal, "ERROR parsing request")
+	}
+	authId := md["authId"][0]
+	return &pb.AuthenticateResponse{AuthId: authId}, nil
 }

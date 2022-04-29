@@ -84,7 +84,7 @@ func (s *service) SignIn(email string, password string) (u *domain.User, token s
 
 	token, err = s.sec.NewToken(usr.Id)
 	if err != nil {
-		log.Println("signin failed:", err.Error())
+		log.Println("signin failed:", err)
 		return &domain.User{}, "", errors.LogError(errors.New(apperrors.ErrInvalidToken,
 			err, "signin failed", ""))
 	}
