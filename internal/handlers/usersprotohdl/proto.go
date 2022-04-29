@@ -58,6 +58,6 @@ func (ph *protoHandler) Authenticate(ctx context.Context,
 	if !ok {
 		return &pb.AuthenticateResponse{}, status.Errorf(codes.Internal, "ERROR parsing request")
 	}
-	authId := md["authId"][0]
+	authId := md["authid"][0]
 	return &pb.AuthenticateResponse{AuthId: authId}, nil
 }
