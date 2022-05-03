@@ -7,11 +7,16 @@
     "client/node/",
     "internal/handlers"
   ],
-"dependencies": {
-    "@grpc/grpc-js": "^1.1.0",
-    "@grpc/proto-loader": "^0.5.0",
-    "async": "^3.2.3",
-    "google-protobuf": "^3.0.0",
-    "lodash": "^4.17.21"
-  }
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
+  "dependencies": {
+      "@grpc/grpc-js": "^1.1.0",
+      "@grpc/proto-loader": "^0.5.0",
+      "async": "^3.2.3",
+      "google-protobuf": "^3.0.0",
+      "lodash": "^4.17.21"
+    }
 }
