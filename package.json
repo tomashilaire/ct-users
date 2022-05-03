@@ -10,7 +10,11 @@
   "browser": {
     "fs": false,
     "path": false,
-    "os": false
+    "os": false,
+    "net": false,
+    "tls": false,
+    "stream": false,
+    "zlib": false
   },
   "dependencies": {
       "@grpc/grpc-js": "^1.1.0",
