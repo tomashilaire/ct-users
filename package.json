@@ -4,14 +4,11 @@
   "main": "client/node/index.js",
   "repository": "@agroproag/am_authentication/src/master/",
   "files": [
-    "client/node/",
-    "internal/handlers"
+    "client/node/"
   ],
   "dependencies": {
-      "@grpc/grpc-js": "^1.1.0",
-      "@grpc/proto-loader": "^0.5.0",
-      "async": "^3.2.3",
-      "google-protobuf": "^3.0.0",
-      "lodash": "^4.17.21"
-    }
+    "google-protobuf": "^3.6.1",
+    "grpc-web": "^1.2.0",
+    "xhr2": "^0.2.1"
+  }
 }
