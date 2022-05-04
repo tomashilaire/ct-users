@@ -1,3 +1,4 @@
+global.XMLHttpRequest = require('xhr2');
 const authenticate = require("./authenticate")
 const signIn = require("./signIn.js")
 const signUp = require("./signUp.js")

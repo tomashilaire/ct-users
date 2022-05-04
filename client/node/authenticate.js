@@ -1,13 +1,12 @@
-let grpc = require('@grpc/grpc-js');
+const {AuthenticateRequest} = require("./users_pb.js");
 
 module.exports = function authenticate(client, token, callback) {
-    let meta = new grpc.Metadata();
-    meta.add("authorization", token)
-    client.Authenticate({}, function(err, response) {
+    let request = new AuthenticateRequest();
+    client.authenticate(request, {"authorization": token}, function(err, response) {
         if (err) {
             console.log(err.message);
-            return callback(err.message);
+            return callback(err.message, null);
         }
-        return callback(response.authId);
+        return callback(null, response.authId);
     });
 }
