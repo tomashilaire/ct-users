@@ -1,6 +1,8 @@
 package client
 
 import (
+	"bitbucket.org/agroproag/am_authentication/client/go/pb"
+	"bitbucket.org/agroproag/am_authentication/client/go/pkg/errors"
 	"bufio"
 	"bytes"
 	"context"
@@ -10,8 +12,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"root/pb"
-	"root/pkg/errors"
 	"time"
 )
 

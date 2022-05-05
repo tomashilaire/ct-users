@@ -1,10 +1,10 @@
 package client
 
 import (
+	"bitbucket.org/agroproag/am_authentication/client/go/pb"
 	"context"
 	"google.golang.org/grpc/metadata"
 	"log"
-	"root/pb"
 	"time"
 )
 
