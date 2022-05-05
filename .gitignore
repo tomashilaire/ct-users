@@ -50,8 +50,7 @@ Thumbs.db
 
 .env
 
-pb/
-*.pb.go
+pb/*.pb.go
 
 grpcsvr
 httpsvr
