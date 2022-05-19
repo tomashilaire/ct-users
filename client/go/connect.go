@@ -39,18 +39,21 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 	return credentials.NewTLS(config), nil
 }
 
-func Connect(host string, port int) (client *grpc.ClientConn, err error) {
+func Connect(host string, port int, enableTLS bool) (client *grpc.ClientConn, err error) {
 	serverAddress := fmt.Sprintf("%s:%d", host, port)
-	enableTLS := flag.Bool("tls", false, "enable SSL/TLS")
 	flag.Parse()
-	log.Printf("dial server %s, TLS = %t", serverAddress, *enableTLS)
+	log.Printf("dial server %s, TLS = %t", serverAddress, enableTLS)
 
 	transportOption := grpc.WithTransportCredentials(insecure.NewCredentials())
 
-	if *enableTLS {
+	if enableTLS {
 		tlsCredentials, err := loadTLSCredentials()
 		if err != nil {
-			log.Fatal("cannot load TLS credentials: ", err)
+			log.Println("cannot load TLS credentials: ", err)
+			config := &tls.Config{
+				InsecureSkipVerify: true,
+			}
+			tlsCredentials = credentials.NewTLS(config)
 		}
 
 		transportOption = grpc.WithTransportCredentials(tlsCredentials)
