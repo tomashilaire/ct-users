@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Authenticate calls sign up RPC
 func (grpcClient *GrpcClient) Authenticate(token string) (string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
