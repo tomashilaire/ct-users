@@ -1,9 +1,9 @@
 package client
 
 import (
+	"bitbucket.org/agroproag/am_authentication/client/go/pb"
 	"context"
 	"log"
-	"root/pb"
 	"time"
 )
 
