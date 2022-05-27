@@ -1,9 +1,20 @@
 const {SignInRequest} = require("./users_pb.js");
-module.exports = function signIn(client, signInForm, callback) {
+
+/**
+ * @param {!proto.pb.Authentication.prototype} client The
+ *     rpc client
+ * @param body Payload with sign in credentials
+ * @param {!string} body.email User email
+ * @param {!string} body.password User password
+ * @param callback
+ *     call metadata
+ *     callback The callback function(response)
+ */
+module.exports = function signIn(client, body, callback) {
     const {
         email,
         password
-    } = signInForm
+    } = body
 
     let request = new SignInRequest();
     request.setEmail(email);

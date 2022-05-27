@@ -1,7 +1,27 @@
 const {SignUpRequest} = require("./users_pb.js");
 
-module.exports = function signUp(client, signUpForm, callback) {
-    const {name, email, password, confirmPassword, type} = signUpForm
+/**
+ * @param {!proto.pb.Authentication.prototype} client The
+ *     rpc client
+ * @param body Payload with sign up information
+ * @param {!string} body.name User name
+ * @param {!string} body.email User email
+ * @param {!string} body.password User password
+ * @param {!string} body.confirmPassword User password confirmation
+ * @param {!string} body.type User type
+ * @param callback
+ *     call metadata
+ *     callback The callback function(response)
+ */
+module.exports = function signUp(client, body, callback) {
+    const {
+        name,
+        email,
+        password,
+        confirmPassword,
+        type
+    } = body
+
     let request = new SignUpRequest();
     request.setName(name);
     request.setEmail(email);
