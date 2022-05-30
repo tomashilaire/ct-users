@@ -13,7 +13,7 @@ import (
 func (s *security) NewToken(userId string) (string, error) {
 
 	claims := &jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Minute * 5).Unix(),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		Issuer:    userId,
 		IssuedAt:  time.Now().Unix(),
 	}

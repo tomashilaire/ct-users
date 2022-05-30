@@ -1,12 +1,39 @@
 const {AuthenticateRequest} = require("./users_pb.js");
 
-module.exports = function authenticate(client, token, callback) {
+/**
+ * @param {!proto.pb.Authentication.prototype} client The
+ *     rpc client
+ * @param body Payload authentication token
+ * @param {!string} body.token Authentication token
+ * @param callback
+ *     call metadata
+ *     callback The callback function(response)
+ */
+module.exports = function authenticate(client, body, callback) {
+    const {
+        token
+    } = body;
     let request = new AuthenticateRequest();
     client.authenticate(request, {"authorization": token}, function(err, response) {
         if (err) {
-            console.log(err.message);
-            return callback(err.message, null);
+            return callback({
+                status: {
+                    code: err.code,
+                    details: err.message,
+                    metadata: err.metadata
+                },
+                data: null
+            });
         }
-        return callback(null, response.authId);
+        return callback({
+            status: {
+                code: 0,
+                details: "Authenticated successfully",
+                metadata: response.metadata
+            },
+            data: {
+                AuthId: response.getAuthid()
+            }
+        });
     });
 }
