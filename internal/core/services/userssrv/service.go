@@ -24,7 +24,7 @@ func NewService(ur ports.UsersRepository, uidGen uidgen.UIDGen,
 	return &service{ur: ur, uidGen: uidGen, v: v, sec: sec}
 }
 
-func (s *service) SignUp(name string, email string, password string,
+func (s *service) SignUp(name string, lastName string, email string, password string,
 	confirmPassword string, userType string) (*domain.User, error) {
 	err := s.v.ValidateSingUp(name, email, password,
 		confirmPassword, userType)
@@ -46,6 +46,7 @@ func (s *service) SignUp(name string, email string, password string,
 		nUser := domain.NewUser(
 			s.uidGen.New(),
 			name,
+			lastName,
 			email,
 			userType,
 			password,

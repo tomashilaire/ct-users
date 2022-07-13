@@ -19,7 +19,7 @@ func NewProtoHandler(us ports.UsersService) *protoHandler {
 
 // SignUp implements pb.AuthenticationServer
 func (ph *protoHandler) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.SignUpResponse, error) {
-	nUser, err := ph.us.SignUp(req.Name, req.Email, req.Password, req.ConfirmPassword, req.Type)
+	nUser, err := ph.us.SignUp(req.Name, req.LastName, req.Email, req.Password, req.ConfirmPassword, req.Type)
 	if err != nil {
 		return &pb.SignUpResponse{}, status.Errorf(codes.Internal, err.Error())
 	}
