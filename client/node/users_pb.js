@@ -69,10 +69,11 @@ proto.pb.User.prototype.toObject = function(opt_includeInstance) {
 proto.pb.User.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    created: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    updated: jspb.Message.getFieldWithDefault(msg, 5, "")
+    lastname: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    name: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    created: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    updated: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -115,17 +116,21 @@ proto.pb.User.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setLastname(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setEmail(value);
+      msg.setName(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCreated(value);
+      msg.setEmail(value);
       break;
     case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCreated(value);
+      break;
+    case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setUpdated(value);
       break;
@@ -165,31 +170,38 @@ proto.pb.User.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getName();
+  f = message.getLastname();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getEmail();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getCreated();
+  f = message.getEmail();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getUpdated();
+  f = message.getCreated();
   if (f.length > 0) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = message.getUpdated();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -212,62 +224,77 @@ proto.pb.User.prototype.setId = function(value) {
 
 
 /**
- * optional string name = 2;
+ * optional string lastName = 2;
  * @return {string}
  */
-proto.pb.User.prototype.getName = function() {
+proto.pb.User.prototype.getLastname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.User.prototype.setName = function(value) {
+proto.pb.User.prototype.setLastname = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string email = 3;
+ * optional string name = 3;
  * @return {string}
  */
-proto.pb.User.prototype.getEmail = function() {
+proto.pb.User.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.User.prototype.setEmail = function(value) {
+proto.pb.User.prototype.setName = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string created = 4;
+ * optional string email = 4;
  * @return {string}
  */
-proto.pb.User.prototype.getCreated = function() {
+proto.pb.User.prototype.getEmail = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.User.prototype.setCreated = function(value) {
+proto.pb.User.prototype.setEmail = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string updated = 5;
+ * optional string created = 5;
  * @return {string}
  */
-proto.pb.User.prototype.getUpdated = function() {
+proto.pb.User.prototype.getCreated = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.User.prototype.setUpdated = function(value) {
+proto.pb.User.prototype.setCreated = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string updated = 6;
+ * @return {string}
+ */
+proto.pb.User.prototype.getUpdated = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.User.prototype.setUpdated = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
@@ -1074,10 +1101,11 @@ proto.pb.SignUpRequest.prototype.toObject = function(opt_includeInstance) {
 proto.pb.SignUpRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    email: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    confirmpassword: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    type: jspb.Message.getFieldWithDefault(msg, 5, "")
+    lastname: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    confirmpassword: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -1120,17 +1148,21 @@ proto.pb.SignUpRequest.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setEmail(value);
+      msg.setLastname(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPassword(value);
+      msg.setEmail(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setConfirmpassword(value);
+      msg.setPassword(value);
       break;
     case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setConfirmpassword(value);
+      break;
+    case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setType(value);
       break;
@@ -1170,31 +1202,38 @@ proto.pb.SignUpRequest.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getEmail();
+  f = message.getLastname();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getPassword();
+  f = message.getEmail();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getConfirmpassword();
+  f = message.getPassword();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getType();
+  f = message.getConfirmpassword();
   if (f.length > 0) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = message.getType();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -1217,62 +1256,77 @@ proto.pb.SignUpRequest.prototype.setName = function(value) {
 
 
 /**
- * optional string email = 2;
+ * optional string lastName = 2;
  * @return {string}
  */
-proto.pb.SignUpRequest.prototype.getEmail = function() {
+proto.pb.SignUpRequest.prototype.getLastname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.SignUpRequest.prototype.setEmail = function(value) {
+proto.pb.SignUpRequest.prototype.setLastname = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string password = 3;
+ * optional string email = 3;
  * @return {string}
  */
-proto.pb.SignUpRequest.prototype.getPassword = function() {
+proto.pb.SignUpRequest.prototype.getEmail = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.SignUpRequest.prototype.setPassword = function(value) {
+proto.pb.SignUpRequest.prototype.setEmail = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string confirmPassword = 4;
+ * optional string password = 4;
  * @return {string}
  */
-proto.pb.SignUpRequest.prototype.getConfirmpassword = function() {
+proto.pb.SignUpRequest.prototype.getPassword = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.SignUpRequest.prototype.setConfirmpassword = function(value) {
+proto.pb.SignUpRequest.prototype.setPassword = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string type = 5;
+ * optional string confirmPassword = 5;
  * @return {string}
  */
-proto.pb.SignUpRequest.prototype.getType = function() {
+proto.pb.SignUpRequest.prototype.getConfirmpassword = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.pb.SignUpRequest.prototype.setType = function(value) {
+proto.pb.SignUpRequest.prototype.setConfirmpassword = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string type = 6;
+ * @return {string}
+ */
+proto.pb.SignUpRequest.prototype.getType = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.pb.SignUpRequest.prototype.setType = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
