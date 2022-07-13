@@ -3,6 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/exporters/jaeger"
+	"go.opentelemetry.io/otel/sdk/resource"
+	"go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 	"log"
 	"net"
 	"os"
@@ -40,6 +45,26 @@ func accessibleMethods() map[string][]string {
 	return map[string][]string{
 		authServicePath + "Authenticate": {},
 	}
+}
+
+func tracerProvider(url string) (*trace.TracerProvider, error) {
+	// Create the Jaeger exporter
+	exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(url)))
+	if err != nil {
+		return nil, err
+	}
+	tp := trace.NewTracerProvider(
+		// Always be sure to batch in production.
+		trace.WithBatcher(exp),
+		// Record information about this application in a Resource.
+		trace.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceNameKey.String(os.Getenv("SERVICE_NAME")),
+			semconv.ServiceVersionKey.String("v0.1.0"),
+			attribute.String("environment", "demo"),
+		)),
+	)
+	return tp, nil
 }
 
 func main() {

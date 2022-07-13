@@ -26,7 +26,7 @@ func NewService(ur ports.UsersRepository, uidGen uidgen.UIDGen,
 
 func (s *service) SignUp(name string, lastName string, email string, password string,
 	confirmPassword string, userType string) (*domain.User, error) {
-	err := s.v.ValidateSingUp(name, email, password,
+	err := s.v.ValidateSingUp(name, lastName, email, password,
 		confirmPassword, userType)
 	if err != nil {
 		return &domain.User{}, errors.LogError(errors.New(apperrors.InvalidInput,
