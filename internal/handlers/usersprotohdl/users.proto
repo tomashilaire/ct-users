@@ -6,10 +6,11 @@ option go_package = "./pb";
 
 message User {
   string id = 1;
-  string name = 2;
-  string email = 3;
-  string created = 4;
-  string updated = 5;
+  string lastName = 2;
+  string name = 3;
+  string email = 4;
+  string created = 5;
+  string updated = 6;
 }
 
 message GetUserRequest {
@@ -34,10 +35,11 @@ message SignInResponse {
 
 message SignUpRequest {
   string name = 1;
-  string email = 2;
-  string password = 3;
-  string confirmPassword = 4;
-  string type = 5;
+  string lastName = 2;
+  string email = 3;
+  string password = 4;
+  string confirmPassword = 5;
+  string type = 6;
 }
 
 message SignUpResponse {

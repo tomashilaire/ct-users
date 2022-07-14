@@ -19,7 +19,7 @@ type FilesService interface {
 }
 
 type UsersService interface {
-	SignUp(name string, email string, password string, confirmPassword string, userType string) (*domain.User, error)
+	SignUp(name string, lastName string, email string, password string, confirmPassword string, userType string) (*domain.User, error)
 	SignIn(email string, password string) (u *domain.User, token string, err error)
 	//GetUser(id string)
 	//UpdateUser(id string, email string, password string, newPassword string, userType string)
