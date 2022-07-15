@@ -44,7 +44,7 @@ func (v *validators) ValidateSingUp(name string, lastName string, email string, 
 	if password != confirmPassword {
 		return errors.LogError(errors.New(apperrors.InvalidInput, err, "The password is incorrect", ""))
 	}
-	if validatedName || validateLastname || validateUserType || validateEmail || validatePassword {
+	if !(validatedName && validateLastname && validateUserType && validateEmail && validatePassword) {
 		return errors.LogError(errors.New(apperrors.InvalidInput, err, "One of the data entered is wrong", ""))
 	}
 
