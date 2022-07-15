@@ -29,7 +29,7 @@ func (v *validators) ValidateSingUp(name string, lastName string, email string, 
 	if err != nil {
 		return err
 	}
-	validateUserType, err := regexp.Match(`^([s|S]ponsor|[p|P]artner)$`, []byte(userType))
+	validateUserType, err := regexp.Match(`^([s|S]ponsor|[p|P]artner|[a|A]dmin)$`, []byte(userType))
 	if err != nil {
 		return err
 	}
