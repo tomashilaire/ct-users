@@ -1,6 +1,7 @@
 package validators
 
 import (
+	"fmt"
 	"regexp"
 	"root/pkg/apperrors"
 	"root/pkg/errors"
@@ -21,7 +22,7 @@ func NewValidators() Validators {
 
 func (v *validators) ValidateSingUp(name string, lastName string, email string, password string,
 	confirmPassword string, userType string) error {
-	validatedName, err := regexp.Match(`\b[\w][^\d]+[a-zA-Z]\b`, []byte(name))
+	validatedName, err := regexp.Match(`^[a-zA-Z'-]+$`, []byte(name))
 	if err != nil {
 		return err
 	}
@@ -45,7 +46,9 @@ func (v *validators) ValidateSingUp(name string, lastName string, email string, 
 		return errors.LogError(errors.New(apperrors.InvalidInput, err, "The password is incorrect", ""))
 	}
 	if !(validatedName && validateLastname && validateUserType && validateEmail && validatePassword) {
-		return errors.LogError(errors.New(apperrors.InvalidInput, err, "One of the data entered is wrong", ""))
+		return errors.LogError(errors.New(apperrors.InvalidInput, err,
+			fmt.Sprintf("One of the data entered is wrong, Name: %s, LastName: %s, Email: %s, Password: %s",
+				validatedName, validateLastname, validateEmail, validatePassword), ""))
 	}
 
 	return nil
