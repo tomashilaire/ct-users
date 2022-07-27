@@ -1,0 +1,11 @@
+FROM golang
+
+WORKDIR /app
+
+RUN wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+
+COPY grpcsvr /app/grpcsvr
+
+EXPOSE 9092
+
+CMD ["/app/grpcsvr", "-local=false", "-port=9092"]

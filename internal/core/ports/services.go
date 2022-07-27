@@ -1,13 +1,28 @@
 package ports
 
 import (
-	"test/internal/core/domain"
+	"bytes"
+	"root/internal/core/domain"
 )
 
-type TestService interface {
-	ShowById(Id string) (domain.Test, error)
-	ShowAll() ([]*domain.Test, error)
-	Update(*domain.Test) (domain.Test, error)
-	Create(*domain.Test) (domain.Test, error)
-	Delete(Id string) error
+type EntityService interface {
+	ShowById(id string) (*domain.Entity, error)
+	ShowAll() ([]*domain.Entity, error)
+	Update(id string, name string, action string) (*domain.Entity, error)
+	Create(name string, action string) (*domain.Entity, error)
+	Delete(id string) error
+}
+
+type FilesService interface {
+	Upload(filePath string, fileType string, fileData bytes.Buffer) (string, error)
+	Download(filePath string, id string, fileType string) (*domain.FileInfo, error)
+}
+
+type UsersService interface {
+	SignUp(name string, lastName string, email string, password string, confirmPassword string, userType string) (*domain.User, error)
+	SignIn(email string, password string) (u *domain.User, token string, err error)
+	//GetUser(id string)
+	//UpdateUser(id string, email string, password string, newPassword string, userType string)
+	//ListUsers()
+	//DeleteUser(id string)
 }

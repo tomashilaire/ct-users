@@ -1,0 +1,154 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  BodyWrapper:
+    properties:
+      action:
+        type: string
+        x-go-name: Action
+      name:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: entity/internal/handlers/entityhttphdl
+  Entity:
+    properties:
+      action:
+        type: string
+        x-go-name: Action
+      id:
+        type: string
+        x-go-name: Id
+      name:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: entity/internal/core/domain
+  IdWrapper:
+    properties:
+      id:
+        type: string
+        x-go-name: Id
+    type: object
+    x-go-package: entity/internal/handlers/entityhttphdl
+  MessageWrapper:
+    properties:
+      message:
+        type: string
+        x-go-name: Message
+    type: object
+    x-go-package: entity/internal/handlers/entityhttphdl
+info:
+  description: Documentation for Entity API
+  title: Entity API
+  version: 0.0.0
+paths:
+  /entities:
+    get:
+      description: Returns a list of entities
+      operationId: listEntities
+      responses:
+        "200":
+          $ref: '#/responses/entitiesResponse'
+        "422":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - entities
+    post:
+      description: Creates a entity
+      operationId: createEntity
+      parameters:
+      - in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/BodyWrapper'
+      responses:
+        "200":
+          $ref: '#/responses/idResponse'
+        "400":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - entities
+  /entities/{id}:
+    delete:
+      description: Deletes a entity
+      operationId: deleteEntity
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      responses:
+        "200":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - entities
+    get:
+      description: Returns a entity
+      operationId: findEntity
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      responses:
+        "200":
+          $ref: '#/responses/entityResponse'
+        "422":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - entities
+    put:
+      description: Updates a entity
+      operationId: updateEntity
+      parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        x-go-name: Id
+      - in: body
+        name: Body
+        schema:
+          $ref: '#/definitions/BodyWrapper'
+      responses:
+        "200":
+          $ref: '#/responses/idResponse'
+        "400":
+          $ref: '#/responses/errorResponse'
+        "500":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - entities
+produces:
+- application/json
+responses:
+  entitiesResponse:
+    description: ""
+    schema:
+      items:
+        $ref: '#/definitions/Entity'
+      type: array
+  entityResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/Entity'
+  errorResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/MessageWrapper'
+  idResponse:
+    description: ""
+    schema:
+      $ref: '#/definitions/IdWrapper'
+schemes:
+- http
+swagger: "2.0"
