@@ -27,14 +27,14 @@ func testDownloadFile(grpcClient *client.GrpcClient) {
 
 func testSignUp(grpcClient *client.GrpcClient) {
 	id, _ := grpcClient.SignUp("thilaire",
-		"tomas@agropro.ag",
+		"tomas@test.ag",
 		"7410",
 		"7410",
 		"partner")
 	log.Println(id)
 }
 func testSignIn(grpcClient *client.GrpcClient) string {
-	_, token, _ := grpcClient.SignIn("tomas@agropro.ag",
+	_, token, _ := grpcClient.SignIn("tomas@test.ag",
 		"7410")
 	return token
 }

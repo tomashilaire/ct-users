@@ -2,13 +2,13 @@
   "name": "grpc-authentication-client",
   "version": "0.0.1",
   "main": "client/node/index.js",
-  "repository": "@agroproag/am_authentication/src/master/",
+  "repository": "@tomashilaire/ct-users/src/master/",
   "files": [
     "client/node/"
   ],
   "dependencies": {
-    "google-protobuf": "^3.6.1",
-    "grpc-web": "^1.2.0",
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.5.0",
     "xhr2": "^0.2.1"
   }
 }

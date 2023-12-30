@@ -1,6 +1,6 @@
 module root
 
-go 1.18
+go 1.21
 
 require (
 	github.com/aws/aws-sdk-go v1.44.0
@@ -16,7 +16,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.8.0
 	golang.org/x/crypto v0.0.0-20201216223049-8b5274cf687f
 	google.golang.org/grpc v1.46.0
-	google.golang.org/protobuf v1.27.1
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -53,5 +53,6 @@ require (
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

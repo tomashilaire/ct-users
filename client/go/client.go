@@ -1,7 +1,7 @@
 package client
 
 import (
-	"bitbucket.org/agroproag/am_authentication/client/go/pb"
+	"github.com/tomashilaire/ct-users/client/go/pb"
 	"google.golang.org/grpc"
 )
 
